@@ -126,3 +126,38 @@ FROM VacinatedPopulation;
 
 
 
+
+--For Tableau
+SELECT
+    location,
+    SUM(new_deaths) AS new_total_death
+FROM covid_death
+WHERE continent IS NULL
+AND location NOT IN ('World','European Union','International')
+GROUP BY location
+ORDER BY new_total_death DESC;
+
+SELECT
+    location, 
+    population, 
+    MAX(total_cases) AS HighestInfectionCount,  
+    Max((total_cases::FLOAT/population))*100 AS PercentPopulationInfected
+FROM covid_death
+GROUP BY 
+    location, 
+    population
+ORDER BY PercentPopulationInfected DESC;
+
+
+Select 
+    location,
+    population,
+    date,
+    MAX(total_cases) AS HighestInfectionCount,  
+    Max((total_cases::FLOAT/population))*100 as PercentPopulationInfected
+From covid_death
+GROUP BY
+    location, 
+    population,
+    date
+ORDER BY PercentPopulationInfected DESC;
